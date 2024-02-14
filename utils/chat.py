@@ -5,19 +5,15 @@
 @Author  :   Ming Ding 
 @Contact :   dm18@mails.tsinghua.edu.cn
 '''
-
-import os
-import sys
 import re
-from functools import partial
-from typing import Optional, Tuple, Union, List, Callable, Dict, Any
-import requests
+from typing import Tuple, List
 from PIL import Image
 from io import BytesIO
 
 import torch
 from sat.generation.autoregressive_sampling import filling_sequence, BaseStrategy, get_masks_and_position_ids_default
 from sat.mpu import get_model_parallel_rank
+from security import safe_requests
 
 def process_image(text, text_processor, img_processor, image=None):
     image_position = text.rfind(text_processor.tokenizer.boi) + 5
@@ -33,7 +29,7 @@ def process_image(text, text_processor, img_processor, image=None):
         image_path = image_path.strip()
         # url
         if image_path.startswith("http"):
-            response = requests.get(image_path, timeout=10)
+            response = safe_requests.get(image_path, timeout=10)
             image = Image.open(BytesIO(response.content))
         # local path
         else:
