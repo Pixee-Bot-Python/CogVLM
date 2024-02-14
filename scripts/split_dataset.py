@@ -1,5 +1,6 @@
 import os
 import shutil
+import secrets
 
 def find_all_files(path, suffix=".jpg"):
     target_files = []
@@ -15,10 +16,8 @@ os.makedirs("archive_split", exist_ok=True)
 os.makedirs("archive_split/train", exist_ok=True)
 os.makedirs("archive_split/valid", exist_ok=True)
 os.makedirs("archive_split/test", exist_ok=True)
-
-import random
-random.seed(2023)
-random.shuffle(all_files)
+secrets.SystemRandom().seed(2023)
+secrets.SystemRandom().shuffle(all_files)
 train = all_files[:8000]
 valid = all_files[8000:8000+500]
 test = all_files[8000+500:8000+500+1500]
