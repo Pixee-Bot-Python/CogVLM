@@ -35,7 +35,8 @@ class GLU(nn.Module):
 from models.eva_clip_model import EVA2CLIPModel
 import argparse
 from copy import deepcopy
-def override_dist_dtype_device_args(args, b={}):
+def override_dist_dtype_device_args(args, b=None):
+    b = {} if b is None else b
     if args.mode == 'inference':
         minimal_args = argparse.Namespace(
             world_size=args.world_size,

@@ -50,8 +50,9 @@ def process_image(text, text_processor, img_processor, image=None):
 def chat(image_path, model, text_processor, img_processor,
         query: str, history: List[Tuple[str, str]] = None, image: Image = None,
         max_length: int = 1024, top_p=0.7, top_k=30, temperature=0.95, repetition_penalty=1.2,
-        invalid_slices=[], no_prompt=False, force_pil_image=None
+        invalid_slices=None, no_prompt=False, force_pil_image=None
         ):
+    invalid_slices = [] if invalid_slices is None else invalid_slices
     is_image_mode = image_path or (type(image) is not tuple and image is not None) or (type(image) is tuple and image != (None, None)) or force_pil_image is not None
     if not history:
         history = []
